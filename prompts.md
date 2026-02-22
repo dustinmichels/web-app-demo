@@ -132,9 +132,19 @@ Compactly describe the structure and data types of this GEOJSON file as a JS com
 
 Add the stations from `data/stations.geojson` to the map as points. When a station is clicked, display a popup with the station name, number of bikes available, and number of ebikes available, and number of docks available.
 
-If more than one dock is available, color the point green. If only one dock is available, color the point yellow. If no docks are available, color the point red.
+Add a toggle: "Bikes available" vs. "Docks available".
 
-OUTPUT: The complete, minimal, working index.html.
+When bikes available is selected, color the points based on the number of bikes available.
+
+- If more than one bike is available, color the point green. If only one bike is available, color the point yellow. If no bikes are available, color the point red.
+
+When docks available is selected, color the points based on the number of docks available.
+
+- If more than one dock is available, color the point green. If only one dock is available, color the point yellow. If no docks are available, color the point red.
+
+Add a legend showing what the colors mean.
+
+OUTPUT: The complete, minimal, working index.html. Retain all existing functionality.
 
 CONTEXT:
 
@@ -178,3 +188,13 @@ CODE:
 ```html
 <!-- ADD CODE HERE -->
 ```
+
+## Add some stats
+
+I want to compute some stats about stations inside towns, using Turf.js.
+
+When a town is selected, show the total number of stations in that town, the total number of bikes available
+
+Load Turf.js via script:
+
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
