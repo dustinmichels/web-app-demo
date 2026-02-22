@@ -2,221 +2,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blue Bike Explorer</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <title>MA Towns Map</title>
     <style>
-      [v-cloak] {
-        display: none;
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
       }
-      .map-placeholder {
-        background-image: url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1000");
-        background-size: cover;
-        background-position: center;
+      #map {
+        width: 100%;
+        height: 100%;
       }
     </style>
+    <link
+      href="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
   </head>
-  <body class="bg-slate-50 min-h-screen">
-    <div id="app" v-cloak>
-      <!-- Header -->
-      <header class="bg-blue-600 text-white shadow-lg">
-        <div
-          class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between"
-        >
-          <div class="flex items-center space-x-3">
-            <i class="fas fa-bicycle text-3xl"></i>
-            <h1 class="text-2xl font-bold tracking-tight">
-              Blue Bike Explorer
-            </h1>
-          </div>
-          <div class="hidden md:block">
-            <span class="text-blue-100 italic">Real-time transit insights</span>
-          </div>
-        </div>
-      </header>
+  <body>
+    <div id="map"></div>
 
-      <!-- Main Content -->
-      <main class="max-w-7xl mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <!-- Left Column: Map Card -->
-          <div class="lg:col-span-2">
-            <div
-              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-[600px] flex flex-col"
-            >
-              <div
-                class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"
-              >
-                <h2 class="font-semibold text-slate-700 flex items-center">
-                  <i class="fas fa-map-marked-alt mr-2 text-blue-500"></i>
-                  Station Map
-                </h2>
-              </div>
-              <div class="flex-grow map-placeholder relative group">
-                <!-- Overlay for placeholder look -->
-                <div
-                  class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-300"
-                ></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div
-                    class="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-xl text-center border border-white"
-                  >
-                    <i
-                      class="fas fa-location-dot text-4xl text-blue-600 mb-3 animate-bounce"
-                    ></i>
-                    <p class="text-slate-800 font-bold text-lg">
-                      Interactive Map Loading...
-                    </p>
-                    <p class="text-slate-500 text-sm">
-                      Leaflet or Mapbox would render here.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column: Controls & Stats -->
-          <div class="space-y-6">
-            <!-- City Selection Card -->
-            <div
-              class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
-            >
-              <label
-                class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider"
-              >
-                Select Region
-              </label>
-              <select
-                v-model="selectedCity"
-                class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
-              >
-                <option value="" disabled>Choose a city...</option>
-                <option v-for="city in cities" :key="city" :value="city">
-                  {{ city }}
-                </option>
-              </select>
-              <p class="mt-3 text-xs text-slate-400">
-                Showing data for {{ selectedCity || 'all regions' }}
-              </p>
-            </div>
-
-            <!-- Stats Card -->
-            <div
-              class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
-            >
-              <h3
-                class="text-sm font-bold text-slate-700 mb-6 uppercase tracking-wider"
-              >
-                Real-Time Statistics
-              </h3>
-
-              <div class="space-y-5">
-                <!-- Bikes -->
-                <div
-                  class="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-100"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-blue-500 text-white p-3 rounded-lg">
-                      <i class="fas fa-bicycle text-xl"></i>
-                    </div>
-                    <div>
-                      <p class="text-sm font-medium text-blue-900">
-                        Bikes Available
-                      </p>
-                      <p class="text-xs text-blue-600">Standard cycles</p>
-                    </div>
-                  </div>
-                  <span class="text-2xl font-black text-blue-700"
-                    >{{ stats.bikes }}</span
-                  >
-                </div>
-
-                <!-- EBikes -->
-                <div
-                  class="flex items-center justify-between p-4 bg-emerald-50 rounded-xl border border-emerald-100"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-emerald-500 text-white p-3 rounded-lg">
-                      <i class="fas fa-bolt text-xl"></i>
-                    </div>
-                    <div>
-                      <p class="text-sm font-medium text-emerald-900">
-                        EBikes Available
-                      </p>
-                      <p class="text-xs text-emerald-600">Electric assist</p>
-                    </div>
-                  </div>
-                  <span class="text-2xl font-black text-emerald-700"
-                    >{{ stats.ebikes }}</span
-                  >
-                </div>
-
-                <!-- Full Racks -->
-                <div
-                  class="flex items-center justify-between p-4 bg-amber-50 rounded-xl border border-amber-100"
-                >
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-amber-500 text-white p-3 rounded-lg">
-                      <i class="fas fa-ban text-xl"></i>
-                    </div>
-                    <div>
-                      <p class="text-sm font-medium text-amber-900">
-                        Racks Full
-                      </p>
-                      <p class="text-xs text-amber-600">No dock space</p>
-                    </div>
-                  </div>
-                  <span class="text-2xl font-black text-amber-700"
-                    >{{ stats.fullRacks }}</span
-                  >
-                </div>
-              </div>
-
-              <button
-                class="w-full mt-6 py-3 px-4 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-xl transition-colors flex items-center justify-center space-x-2"
-              >
-                <i class="fas fa-sync-alt"></i>
-                <span>Refresh Data</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-
+    <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
     <script>
-      const { createApp, ref } = Vue;
-
-      createApp({
-        setup() {
-          const selectedCity = ref("Boston, MA");
-          const cities = ref([
-            "Boston, MA",
-            "Cambridge, MA",
-            "Somerville, MA",
-            "Brookline, MA",
-            "Everett, MA",
-          ]);
-
-          // Placeholder stats
-          const stats = ref({
-            bikes: "142",
-            ebikes: "48",
-            fullRacks: "12",
-          });
-
-          return {
-            selectedCity,
-            cities,
-            stats,
-          };
+      // Initialize the map without a basemap
+      const map = new maplibregl.Map({
+        container: "map",
+        style: {
+          version: 8,
+          sources: {},
+          layers: [],
         },
-      }).mount("#app");
+        center: [-71.5, 42.2], // roughly central MA
+        zoom: 7,
+      });
+
+      map.on("load", () => {
+        // Load towns GeoJSON
+        map.addSource("towns", {
+          type: "geojson",
+          data: "data/towns.geojson",
+        });
+
+        // Add polygon layer
+        map.addLayer({
+          id: "town-polygons",
+          type: "fill",
+          source: "towns",
+          paint: {
+            "fill-color": "#007cbf",
+            "fill-opacity": 0.5,
+          },
+        });
+
+        // Add polygon outlines
+        map.addLayer({
+          id: "town-borders",
+          type: "line",
+          source: "towns",
+          paint: {
+            "line-color": "#003366",
+            "line-width": 2,
+          },
+        });
+      });
     </script>
   </body>
 </html>
