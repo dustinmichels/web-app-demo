@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>MA Towns Map with Stations</title>
+    <title>MA Towns Map</title>
     <style>
       html,
       body {
@@ -63,34 +63,50 @@
 
       let selectedTownId = null;
 
-      // --- Load towns ---
       fetch("data/towns.geojson")
-        .then((res) => res.json())
+        .then((response) => response.json())
         .then((data) => {
-          map.addSource("towns", { type: "geojson", data });
+          // Add towns source
+          map.addSource("towns", {
+            type: "geojson",
+            data: data,
+          });
 
+          // Add fill layer (mostly transparent)
           map.addLayer({
             id: "towns-fill",
             type: "fill",
             source: "towns",
-            paint: { "fill-color": "#0080ff", "fill-opacity": 0.3 },
+            paint: {
+              "fill-color": "#0080ff",
+              "fill-opacity": 0.3,
+            },
           });
 
+          // Add outline layer
           map.addLayer({
             id: "towns-outline",
             type: "line",
             source: "towns",
-            paint: { "line-color": "#000", "line-width": 1 },
+            paint: {
+              "line-color": "#000",
+              "line-width": 1,
+            },
           });
 
+          // Highlight layer
           map.addLayer({
             id: "towns-highlight",
             type: "line",
             source: "towns",
-            paint: { "line-color": "red", "line-width": 3 },
+            paint: {
+              "line-color": "red",
+              "line-width": 3,
+            },
             filter: ["==", "TOWN_ID", -1],
           });
 
+          // Populate dropdown
           const select = document.getElementById("townSelect");
           data.features.forEach((f) => {
             const option = document.createElement("option");
@@ -99,11 +115,13 @@
             select.appendChild(option);
           });
 
+          // Dropdown change
           select.addEventListener("change", (e) => {
             const id = parseInt(e.target.value);
             highlightTown(id);
           });
 
+          // Map click
           map.on("click", "towns-fill", (e) => {
             if (!e.features || !e.features.length) return;
             const id = e.features[0].properties.TOWN_ID;
@@ -119,72 +137,15 @@
               map.setFilter("towns-highlight", ["==", "TOWN_ID", id]);
             }
           }
-
-          map.on("mouseenter", "towns-fill", () => {
-            map.getCanvas().style.cursor = "pointer";
-          });
-          map.on("mouseleave", "towns-fill", () => {
-            map.getCanvas().style.cursor = "";
-          });
         });
 
-      // --- Load stations ---
-      fetch("data/stations.geojson")
-        .then((res) => res.json())
-        .then((stations) => {
-          // Add as GeoJSON source
-          map.addSource("stations", { type: "geojson", data: stations });
-
-          // Add circle layer with color based on docks available
-          map.addLayer({
-            id: "stations-circle",
-            type: "circle",
-            source: "stations",
-            paint: {
-              "circle-radius": 7,
-              "circle-color": [
-                "case",
-                [">", ["get", "bikeDocksAvailable"], 1],
-                "green",
-                ["==", ["get", "bikeDocksAvailable"], 1],
-                "yellow",
-                ["==", ["get", "bikeDocksAvailable"], 0],
-                "red",
-                "gray",
-              ],
-              "circle-stroke-color": "#000",
-              "circle-stroke-width": 1,
-            },
-          });
-
-          // Popup on click
-          const popup = new maplibregl.Popup({
-            closeButton: true,
-            closeOnClick: true,
-          });
-
-          map.on("click", "stations-circle", (e) => {
-            if (!e.features || !e.features.length) return;
-            const f = e.features[0];
-            const props = f.properties;
-            popup
-              .setLngLat(f.geometry.coordinates)
-              .setHTML(
-                `<strong>${props.stationName}</strong><br/>
-                 Bikes: ${props.bikesAvailable}<br/>
-                 Ebikes: ${props.ebikesAvailable}<br/>
-                 Docks: ${props.bikeDocksAvailable}`,
-              )
-              .addTo(map);
-          });
-
-          map.on("mouseenter", "stations-circle", () => {
-            map.getCanvas().style.cursor = "pointer";
-          });
-          map.on("mouseleave", "stations-circle", () => {
-            map.getCanvas().style.cursor = "";
-          });
-        });
+      // Cursor pointer
+      map.on("mouseenter", "towns-fill", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "towns-fill", () => {
+        map.getCanvas().style.cursor = "";
+      });
     </script>
   </body>
 </html>

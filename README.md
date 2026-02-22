@@ -16,6 +16,11 @@ Download MassGIS:
 cp index.html "index_backup$(ls index_backup*.html 2>/dev/null | wc -l | tr -d ' ').html"
 ```
 
+## Links
+
+Leaflet tiles:
+<https://leaflet-extras.github.io/leaflet-providers/preview/>
+
 ## Prompts
 
 ### Layout

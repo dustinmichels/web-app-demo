@@ -1,6 +1,6 @@
 # Prompts
 
-## 0 - Document data
+## Document towns.geojson
 
 Compactly describe the structure and data types of this GEOJSON file as a JS comment.
 
@@ -9,7 +9,7 @@ Compactly describe the structure and data types of this GEOJSON file as a JS com
 // head -n 6 data/towns.geojson | pbcopy
 ```
 
-## 1 - Create map
+## Create the map
 
 Create a minimal index.html that displays the polygons for the towns of MA on a map. Do NOT display a basemap.
 
@@ -46,7 +46,12 @@ GEOJSON structure for "towns":
 */
 ```
 
-## 2 - Add dropdown
+## Add a dropdown
+
+```sh
+# backup previous version of index.html
+cp index.html index1-basic_map.html
+```
 
 Add a dropdown to the page that allows the user to select a town. Populate with the names of the towns.
 
@@ -83,6 +88,88 @@ GEOJSON structure for "towns":
           - polygon: array of linear rings
             - linear ring: array of positions
               - position: [longitude (number), latitude (number)]
+*/
+```
+
+CODE:
+
+```html
+<!-- ADD CODE HERE -->
+```
+
+## Add basemap
+
+Check out:
+<https://leaflet-extras.github.io/leaflet-providers/preview/>
+
+Add a basemap to the map using OpenStreetMap tiles. Make the polygons mostly transparent.
+
+OUTPUT: The complete, minimal, working index.html.
+
+CODE:
+
+```html
+<!-- ADD CODE HERE -->
+```
+
+## Add the bike stations
+
+```sh
+# backup previous version of index.html
+cp index.html index2-basemap.html
+```
+
+### Document stations.geojson
+
+Compactly describe the structure and data types of this GEOJSON file as a JS comment.
+
+```json
+// PUT THE FIRST LINES OF STATIONS.GEOJSON HERE
+// head -n 33 data/stations.geojson | pbcopy
+```
+
+### Update index.html
+
+Add the stations from `data/stations.geojson` to the map as points. When a station is clicked, display a popup with the station name, number of bikes available, and number of ebikes available, and number of docks available.
+
+If more than one dock is available, color the point green. If only one dock is available, color the point yellow. If no docks are available, color the point red.
+
+OUTPUT: The complete, minimal, working index.html.
+
+CONTEXT:
+
+Here is what the stations data file looks like:
+
+```js
+/*
+GEOJSON structure:
+
+- type: "FeatureCollection" (string)
+- features: Array of Feature objects
+  - Each Feature:
+    - type: "Feature" (string)
+    - geometry: object
+      - type: "Point" (string)
+      - coordinates: [longitude (number), latitude (number)]
+    - properties: object
+      - stationId: string
+      - stationName: string
+      - siteId: string
+      - bikesAvailable: number
+      - bikeDocksAvailable: number
+      - ebikesAvailable: number
+      - scootersAvailable: number
+      - totalBikesAvailable: number
+      - totalRideablesAvailable: number
+      - isValet: boolean
+      - isOffline: boolean
+      - isLightweight: boolean
+      - lastUpdatedMs: number (timestamp in ms)
+      - notices: array of notice objects
+        - localizedTitle: string
+        - localizedDescription: string
+        - url: string | null
+        - __typename: string
 */
 ```
 
