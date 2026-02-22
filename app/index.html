@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <title>MA Towns Map</title>
     <style>
-      body,
-      html {
+      html,
+      body {
         margin: 0;
         padding: 0;
         height: 100%;
@@ -25,7 +25,7 @@
 
     <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
     <script>
-      // Initialize the map without a basemap
+      // Initialize map with no basemap
       const map = new maplibregl.Map({
         container: "map",
         style: {
@@ -33,39 +33,42 @@
           sources: {},
           layers: [],
         },
-        center: [-71.5, 42.2], // roughly central MA
-        zoom: 7,
+        center: [-71.5, 42.3], // roughly central MA
+        zoom: 8,
       });
 
-      map.on("load", () => {
-        // Load towns GeoJSON
-        map.addSource("towns", {
-          type: "geojson",
-          data: "data/towns.geojson",
-        });
+      // Load towns GeoJSON
+      fetch("data/towns.geojson")
+        .then((response) => response.json())
+        .then((data) => {
+          // Add GeoJSON source
+          map.addSource("towns", {
+            type: "geojson",
+            data: data,
+          });
 
-        // Add polygon layer
-        map.addLayer({
-          id: "town-polygons",
-          type: "fill",
-          source: "towns",
-          paint: {
-            "fill-color": "#007cbf",
-            "fill-opacity": 0.5,
-          },
-        });
+          // Add polygon layer
+          map.addLayer({
+            id: "towns-fill",
+            type: "fill",
+            source: "towns",
+            paint: {
+              "fill-color": "#0080ff",
+              "fill-opacity": 0.5,
+            },
+          });
 
-        // Add polygon outlines
-        map.addLayer({
-          id: "town-borders",
-          type: "line",
-          source: "towns",
-          paint: {
-            "line-color": "#003366",
-            "line-width": 2,
-          },
+          // Add polygon outline
+          map.addLayer({
+            id: "towns-outline",
+            type: "line",
+            source: "towns",
+            paint: {
+              "line-color": "#000",
+              "line-width": 1,
+            },
+          });
         });
-      });
     </script>
   </body>
 </html>

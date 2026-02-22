@@ -8,6 +8,8 @@ Download MassGIS:
 
 <https://www.mass.gov/info-details/massgis-data-2020-us-census-towns>
 
+<https://www.mass.gov/info-details/massgis-data-municipalities>
+
 ## Backup
 
 ```sh
