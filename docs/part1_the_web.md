@@ -228,7 +228,11 @@ body {
 }
 ```
 
-Complete code:
+**Complete code:**
+
+<!-- tabs:start -->
+
+#### **HTML**
 
 `part1/app1/index.html`
 
@@ -253,6 +257,8 @@ Complete code:
 </html>
 ```
 
+#### **CSS**
+
 `part1/app1/style.css`
 
 ```css
@@ -269,6 +275,10 @@ h1 {
   padding: 10px;
 }
 ```
+
+<!-- tabs:end -->
+
+Refresh the page. Explore how it looks in the inspector. You can right-click on any element and select "Inspect" or "Inspect Element" to see the HTML and CSS for that element.
 
 ### Add functionality (JavaScript)
 
@@ -327,7 +337,15 @@ Refresh the page. When you click the button, the color of the header should chan
 
 To understand how this code works, you could run it line by line in the browser console. Open the console by right-clicking on the page and selecting "Inspect" or "Inspect Element", then go to the "Console" tab.
 
-Complete code:
+Also, check out the "Network" tab in the inspector. Refresh the page and see how the browser loads the html, css, and js files in three separate HTTP GET requests.
+
+![Network tab](img/part1/network-tab.png)
+
+**Complete code:**
+
+<!-- tabs:start -->
+
+#### **HTML**
 
 `part1/app1/index.html`
 
@@ -354,6 +372,23 @@ Complete code:
 </body>
 ```
 
+#### **CSS**
+
+`part1/app1/style.css`
+
+```css
+body {
+  font-family: Arial, sans-serif;
+}
+
+.box {
+  border: 1px solid black;
+  padding: 10px;
+}
+```
+
+#### **JavaScript**
+
 `part1/app1/script.js`
 
 ```js
@@ -373,4 +408,117 @@ button.addEventListener("click", () => {
   // change the color of the header
   header.style.color = colors[counter];
 });
+```
+
+<!-- tabs:end -->
+
+### Introducing JSON
+
+Instead of a list (array) of colors:
+
+```js
+const colors = ["red", "blue", "green", "orange", "purple"];
+```
+
+we could instead have a list of _objects_.
+
+Eg, color name and hex code. You could also have to update the color-setting code to get the hex code.
+
+```js
+const colors = [
+  { name: "red", hex: "#ff0000" },
+  { name: "blue", hex: "#0000ff" },
+  { name: "green", hex: "#00ff00" },
+  { name: "orange", hex: "#ffa500" },
+  { name: "purple", hex: "#800080" },
+];
+
+(...)
+
+button.addEventListener("click", () => {
+  (...)
+
+  // OLD: change the color of the header
+  // header.style.color = colors[counter];
+
+  // NEW: change the color of the header
+  header.style.color = colors[counter].hex;
+});
+```
+
+If your data got large, you might pull it out of the code add into a JSON file.
+
+Create a data folder, and inside, a file called `colors.json`:
+
+```sh
+mkdir data
+touch data/colors.json
+```
+
+Files:
+
+```txt
+.
+└── part1
+    └── app1
+        ├── index.html
+        ├── style.css
+        ├── script.js
+        └── data
+            └── colors.json
+```
+
+Add the data to it:
+
+`part1/app1/data/colors.json`
+
+```json
+{
+  "colors": [
+    { "name": "red", "hex": "#ff0000" },
+    { "name": "blue", "hex": "#0000ff" },
+    { "name": "green", "hex": "#00ff00" },
+    { "name": "orange", "hex": "#ffa500" },
+    { "name": "purple", "hex": "#800080" }
+  ]
+}
+```
+
+> [!NOTE]
+> This basically tabular data. You can find [CSV-to-JSON converters](https://jsonlint.com/csv-to-json) online.
+
+Now we could update our code to fetch the data from the JSON file instead of having it hardcoded in the JavaScript.
+
+`part1/app1/script.js`
+
+```js
+const button = document.getElementById("myButton");
+const header = document.querySelector("h1");
+
+let colors = [];
+let counter = 0;
+
+fetch("data/colors.json")
+  .then((response) => response.json())
+  .then((data) => {
+    colors = data.colors.map((c) => c.hex);
+    header.style.color = colors[counter];
+  });
+
+button.addEventListener("click", () => {
+  if (!colors.length) return;
+  counter = (counter + 1) % colors.length;
+  header.style.color = colors[counter];
+});
+```
+
+> [!WARNING]
+> Open `index.html` doesn't work anymore, because we can't use "fetch" to read files from the filesystem without running a server.
+
+Rather than `open index.html`, we need to run a local server to serve the files.
+
+With Node installed, we can run:
+
+```sh
+npx serve .
 ```

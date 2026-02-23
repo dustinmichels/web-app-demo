@@ -1,16 +1,18 @@
-// get the button and header elements
 const button = document.getElementById("myButton");
 const header = document.querySelector("h1");
-// make a list of colors
-const colors = ["red", "blue", "green", "orange", "purple"];
-// create a counter and set it to 0
-// set header to the first item in the list
+
+let colors = [];
 let counter = 0;
-header.style.color = colors[counter];
-// add a click event listener to the button
+
+fetch("data/colors.json")
+  .then((response) => response.json())
+  .then((data) => {
+    colors = data.colors.map((c) => c.hex);
+    header.style.color = colors[counter];
+  });
+
 button.addEventListener("click", () => {
-  // increment the counter
+  if (!colors.length) return;
   counter = (counter + 1) % colors.length;
-  // change the color of the header
   header.style.color = colors[counter];
 });
