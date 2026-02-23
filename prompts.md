@@ -138,8 +138,6 @@ CODE:
 cp index.html index2-basemap.html
 ```
 
-### Document stations.geojson
-
 ### Update index.html
 
 Add the stations from `data/stations.geojson` to the map as points. When a station is clicked, display a popup with the station name, number of bikes available, and number of ebikes available, and number of docks available.
@@ -243,7 +241,15 @@ CODE:
 
 ## Live data
 
-Add a button "Refresh data" that reloads the stations data by calling the blue bike API.
+Add a button "Refresh data" that reloads the stations data by calling the blue bike API. Before the button has been pressed, load the existing stations.geojson file as before. After the button is pressed, load the data from the API and update the map and stats accordingly.
+
+Provide a loading indicator while the data is being fetched.
+
+I am providing code to fetch data, but this must be adapted. Instead of hitting the API directly, hit:
+
+```js
+const url = "/.netlify/functions/get-bikes";
+```
 
 OUTPUT: The complete, minimal, working index.html. Refactor existing code as needed to remain organized, but retain all existing functionality.
 

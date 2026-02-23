@@ -1,0 +1,4 @@
+- [Home](/)
+- [Part 1: How the web works](/part1_the_web.md)
+- [Part 2: Scraping data from the web](/part2_web_scraping.md)
+- [Part 3: Building a web app with AI](/part3_vibe_coding.md)
