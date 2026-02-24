@@ -543,6 +543,8 @@ cd app2
 touch index.html
 ```
 
+To combine, put the CSS code in a `<style>` tag in the head, and the JS code in a `<script>` tag at the end of the body. I removed the JSON file and just hardcoded the data in the JavaScript for simplicity.
+
 **Complete code:**
 
 `part1/app2/index.html`
@@ -613,7 +615,11 @@ The tailwind package can be added with a simple script tag in the head of your h
 <script src="https://cdn.tailwindcss.com"></script>
 ```
 
-I asked AI to generate a version of the page that uses Tailwind for styling instead of custom CSS.
+CDN stands for Content Delivery Network. It's a way to load packages from a remote server instead of having to install them locally. This is useful for simple projects or when you just want to quickly test something out.
+
+If you want to install packages while keeping to a single file, look for the "CDN" option in their documentation.
+
+I asked Gemini to generate a version of the page that uses Tailwind for styling instead of custom CSS. Here's the result.
 
 **Complete code:**
 
