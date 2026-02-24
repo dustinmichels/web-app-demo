@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0
+"
+    />
+    <title>My App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .box {
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <p>This is my first website</p>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+    <div class="box">This is stuff inside a div</div>
+    <button id="myButton">Change header color</button>
+  </body>
+  <script>
+    const button = document.getElementById("myButton");
+    const header = document.querySelector("h1");
+
+    let colors = [
+      { name: "red", hex: "#ff0000" },
+      { name: "blue", hex: "#0000ff" },
+      { name: "green", hex: "#00ff00" },
+      { name: "orange", hex: "#ffa500" },
+      { name: "purple", hex: "#800080" },
+    ];
+
+    let counter = 0;
+    header.style.color = colors[counter].hex;
+
+    button.addEventListener("click", () => {
+      counter = (counter + 1) % colors.length;
+      header.style.color = colors[counter].hex;
+    });
+  </script>
+</html>

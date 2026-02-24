@@ -42,7 +42,7 @@ mkdir part1
 cd part1
 ```
 
-## App1 - Create a webpage
+## App1 - Create a website
 
 In [VSCode](https://code.visualstudio.com/download), create a folder called "app1"
 
@@ -521,4 +521,185 @@ With Node installed, we can run:
 
 ```sh
 npx serve .
+```
+
+## App2 - Single file
+
+### Combine files
+
+You can combine html, css, and js into a single file. This will make it easier to work with simple AI chat bots like chatGPT that can't read/write multiple files.
+
+```sh
+# go up a directory, back to part1
+cd ..
+
+# make a new directory for app2
+mkdir app2
+
+# navigate into app2
+cd app2
+
+# create index.html
+touch index.html
+```
+
+**Complete code:**
+
+`part1/app2/index.html`
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0
+"
+    />
+    <title>My App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .box {
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <p>This is my first website</p>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+    <div class="box">This is stuff inside a div</div>
+    <button id="myButton">Change header color</button>
+  </body>
+  <script>
+    const button = document.getElementById("myButton");
+    const header = document.querySelector("h1");
+
+    let colors = [
+      { name: "red", hex: "#ff0000" },
+      { name: "blue", hex: "#0000ff" },
+      { name: "green", hex: "#00ff00" },
+      { name: "orange", hex: "#ffa500" },
+      { name: "purple", hex: "#800080" },
+    ];
+
+    let counter = 0;
+    header.style.color = colors[counter].hex;
+
+    button.addEventListener("click", () => {
+      counter = (counter + 1) % colors.length;
+      header.style.color = colors[counter].hex;
+    });
+  </script>
+</html>
+```
+
+### Add a package
+
+Packages can add functionality to your project without you having to write it yourself. For example, [TailwindCSS](https://tailwindcss.com/) is a popular CSS framework that provides pre-built styles and components.
+
+The tailwind package can be added with a simple script tag in the head of your html file:
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+I asked AI to generate a version of the page that uses Tailwind for styling instead of custom CSS.
+
+**Complete code:**
+
+`part1/app2/index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-slate-50 min-h-screen flex items-center justify-center p-6 text-slate-800"
+  >
+    <div
+      class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 border border-slate-100"
+    >
+      <header class="text-center">
+        <h1
+          class="text-4xl font-extrabold tracking-tight transition-colors duration-300"
+        >
+          Hello World
+        </h1>
+        <p class="mt-2 text-slate-500 font-medium">This is my first website</p>
+      </header>
+
+      <hr class="border-slate-100" />
+
+      <ul class="space-y-2">
+        <li
+          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
+        >
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 1</span>
+        </li>
+        <li
+          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
+        >
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 2</span>
+        </li>
+        <li
+          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
+        >
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 3</span>
+        </li>
+      </ul>
+
+      <div
+        class="p-4 bg-indigo-50 border-2 border-indigo-100 rounded-xl text-indigo-700 text-sm font-medium text-center italic"
+      >
+        This is stuff inside a div
+      </div>
+
+      <button
+        id="myButton"
+        class="w-full py-3 px-6 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl shadow-lg transform active:scale-[0.98] transition-all"
+      >
+        Change header color
+      </button>
+    </div>
+
+    <script>
+      const button = document.getElementById("myButton");
+      const header = document.querySelector("h1");
+
+      const colors = [
+        { name: "red", hex: "#ef4444" }, // Tailwind red-500
+        { name: "blue", hex: "#3b82f6" }, // Tailwind blue-500
+        { name: "green", hex: "#22c55e" }, // Tailwind green-500
+        { name: "orange", hex: "#f97316" }, // Tailwind orange-500
+        { name: "purple", hex: "#a855f7" }, // Tailwind purple-500
+      ];
+
+      let counter = 0;
+      header.style.color = colors[counter].hex;
+
+      button.addEventListener("click", () => {
+        counter = (counter + 1) % colors.length;
+        header.style.color = colors[counter].hex;
+      });
+    </script>
+  </body>
+</html>
 ```
