@@ -1,0 +1,50 @@
+/* Site-specific overrides on top of the docsify vue theme. */
+
+/* Dotted outline around each sidebar section you're currently in
+   (e.g. "Part 1" and, inside it, "App1"). sidebar-groups.js nests each
+   heading's children inside its <li>, so a group is one element.
+   Every group always reserves the border/padding so nothing shifts when the
+   outline appears; only the colors change. */
+.sidebar-nav li:has(> ul) {
+  margin-left: -9px; /* offset padding + border so the text stays aligned */
+  padding: 2px 8px 4px;
+  border: 1px dotted transparent;
+  border-radius: 8px;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.sidebar-nav li:has(> ul):is(.active, :has(li.active)) {
+  border-color: color-mix(in srgb, var(--theme-color, #42b983) 55%, transparent);
+  background-color: color-mix(in srgb, var(--theme-color, #42b983) 4%, transparent);
+}
+
+/* Keep the outermost outline off the sidebar's right edge. */
+.sidebar-nav > ul {
+  margin-right: 12px;
+}
+
+/* Red/green lines for ```diff code blocks (Prism diff tokens). */
+.markdown-section pre .token.inserted-sign,
+.markdown-section pre .token.deleted-sign {
+  display: block;
+  margin: 0 -5px; /* fill the code box's horizontal padding */
+  padding: 0 5px;
+}
+
+.markdown-section pre .token.inserted,
+.markdown-section pre .token.deleted {
+  text-decoration: none; /* theme strikes through deleted lines */
+  border-bottom: none; /* theme underlines inserted lines */
+}
+
+.markdown-section pre .token.inserted-sign {
+  background: #e6ffec;
+  color: #116329;
+}
+
+.markdown-section pre .token.deleted-sign {
+  background: #ffebe9;
+  color: #82071e;
+}

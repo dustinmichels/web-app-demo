@@ -5,10 +5,7 @@
 Run docsify
 
 ```sh
-# install
-# npm i docsify-cli -g
-
-docsify serve docs
+bunx docsify-cli serve docs
 ```
 
 ## Links

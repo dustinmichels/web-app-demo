@@ -1,0 +1,6 @@
+- const colors = ["red", "blue", "green", "orange", "purple"]; + const colors = [ + { name: "red",
+hex: "#ff0000" }, + { name: "blue", hex: "#0000ff" }, + { name: "green", hex: "#00ff00" }, + { name:
+"orange", hex: "#ffa500" }, + { name: "purple", hex: "#800080" }, + ]; let counter = 0; -
+header.style.color = colors[counter]; + header.style.color = colors[counter].hex;
+button.addEventListener("click", () => { (...) - header.style.color = colors[counter]; +
+header.style.color = colors[counter].hex; });
