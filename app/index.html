@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MA Towns Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- MapLibre CSS -->
+    <link href="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.css" rel="stylesheet" />
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width: 100vw;
+        height: 100vh;
+      }
+      .control {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        background: white;
+        padding: 8px;
+        border-radius: 4px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        font-family: sans-serif;
+      }
+      select {
+        width: 220px;
+      }
+    </style>
+  </head>
+  <body>
+    <div x-data="townApp()" x-init="init()" style="position: relative; width: 100vw; height: 100vh">
+      <div class="control">
+        <select x-model="selectedTown">
+          <option value="">-- Select a town --</option>
+          <template x-for="town in towns" :key="town">
+            <option :value="town" x-text="town"></option>
+          </template>
+        </select>
+      </div>
+
+      <div id="map"></div>
+    </div>
+
+    <!-- MapLibre JS -->
+    <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
+
+    <script>
+      function townApp() {
+        return {
+          map: null,
+          towns: [],
+          selectedTown: "",
+
+          init() {
+            this.map = new maplibregl.Map({
+              container: "map",
+              style: "https://tiles.openfreemap.org/styles/liberty",
+              center: [-71.8, 42.3],
+              zoom: 7,
+            });
+
+            this.map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+            this.map.on("load", async () => {
+              this.map.addSource("towns", {
+                type: "geojson",
+                data: "data/towns.geojson",
+              });
+
+              this.map.addLayer({
+                id: "towns-fill",
+                type: "fill",
+                source: "towns",
+                paint: {
+                  "fill-color": "#0080ff",
+                  "fill-opacity": 0.2,
+                },
+              });
+
+              this.map.addLayer({
+                id: "towns-outline",
+                type: "line",
+                source: "towns",
+                paint: {
+                  "line-color": [
+                    "case",
+                    ["==", ["get", "TOWN"], ["literal", this.selectedTown]],
+                    "#ff0000",
+                    "#004080",
+                  ],
+                  "line-width": [
+                    "case",
+                    ["==", ["get", "TOWN"], ["literal", this.selectedTown]],
+                    3,
+                    1,
+                  ],
+                },
+              });
+
+              // Load towns for dropdown
+              const response = await fetch("data/towns.geojson");
+              const geojson = await response.json();
+              this.towns = geojson.features.map((f) => f.properties.TOWN).sort();
+
+              // Click interaction
+              this.map.on("click", "towns-fill", (e) => {
+                const town = e.features[0].properties.TOWN;
+                this.selectedTown = town;
+                this.updateHighlight();
+              });
+
+              this.map.on("mouseenter", "towns-fill", () => {
+                this.map.getCanvas().style.cursor = "pointer";
+              });
+
+              this.map.on("mouseleave", "towns-fill", () => {
+                this.map.getCanvas().style.cursor = "";
+              });
+            });
+
+            // Watch dropdown changes
+            this.$watch("selectedTown", () => {
+              this.updateHighlight();
+            });
+          },
+
+          updateHighlight() {
+            if (!this.map || !this.map.getLayer("towns-outline")) return;
+
+            this.map.setPaintProperty("towns-outline", "line-color", [
+              "case",
+              ["==", ["get", "TOWN"], this.selectedTown],
+              "#ff0000",
+              "#004080",
+            ]);
+
+            this.map.setPaintProperty("towns-outline", "line-width", [
+              "case",
+              ["==", ["get", "TOWN"], this.selectedTown],
+              3,
+              1,
+            ]);
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

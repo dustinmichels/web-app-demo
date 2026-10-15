@@ -8,7 +8,7 @@ The final product will be similar to this [Blue Bikes Dashboard](https://bluebik
 
 ## Pre-requisites
 
-- Install [VSCode](https://code.visualstudio.com/download)
+- Install a code editor: [VSCode](https://code.visualstudio.com/download) or [Zed](https://zed.dev/download)
 - Install [Node.js](https://nodejs.org/en/download/)
 - _[Optional]_ Install [Bruno](https://www.usebruno.com/downloads)
 
@@ -22,11 +22,17 @@ If on MacOS, you could use the [Homebrew](https://brew.sh/) package manager.
 brew install node@24
 
 # install bruno
-brew install bruno
+brew install --cask bruno
 
 # install VSCode
 brew install --cask visual-studio-code
 ```
+
+In VSCode, I recomend setting up auto-formatting.
+
+- Install the `oxc` extension
+- In settings, search for and enable "format on save"
+- Also search for "deafult formatter" and set it to oxc
 
 ## Contents
 

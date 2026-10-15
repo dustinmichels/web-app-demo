@@ -343,11 +343,7 @@ Load via cdn:
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 <!-- daisy UI -->
-<link
-  href="https://cdn.jsdelivr.net/npm/daisyui@5"
-  rel="stylesheet"
-  type="text/css"
-/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 ```
 

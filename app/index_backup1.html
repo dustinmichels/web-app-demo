@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MA Towns Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- MapLibre CSS -->
+    <link href="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- MapLibre JS -->
+    <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
+    <script>
+      const map = new maplibregl.Map({
+        container: "map",
+        style: "https://tiles.openfreemap.org/styles/liberty",
+        center: [-71.8, 42.3], // Massachusetts
+        zoom: 7,
+      });
+
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+      map.on("load", () => {
+        map.addSource("towns", {
+          type: "geojson",
+          data: "data/towns.geojson",
+        });
+
+        map.addLayer({
+          id: "towns-fill",
+          type: "fill",
+          source: "towns",
+          paint: {
+            "fill-color": "#0080ff",
+            "fill-opacity": 0.2, // mostly transparent
+          },
+        });
+
+        map.addLayer({
+          id: "towns-outline",
+          type: "line",
+          source: "towns",
+          paint: {
+            "line-color": "#004080",
+            "line-width": 1,
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

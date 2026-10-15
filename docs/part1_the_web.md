@@ -7,7 +7,7 @@ Web sites are documents made up of HTML, CSS, and JavaScript.
 - **HTML** is the structure of the page
 - **CSS** adds style
 - **JavaScript** adds interactivity
-  - **JSON** can be used for data
+  - **JSON** (_JavaScript Object Notation_) can be used for data
 
 ![HTML, CSS, JavaScript](https://cdn-media-1.freecodecamp.org/images/1*5GAPClpa09DmNcCslMA23Q.png)
 
@@ -17,7 +17,11 @@ A **server** hosts the files that make up a website and serves them to users whe
 
 - The server must speak the _HTTP protocol_, which is how browsers communicate with servers.
 
-![Link](https://madooei.github.io/cs421_sp20_homepage/assets/client-server-1.png)
+![Link](https://media.geeksforgeeks.org/wp-content/uploads/20250612122232839304/HTTP-.gif)
+
+...Sometimes there is also a database.
+
+![Link](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYiQ_Hy5pbPCaHl1J-vYEzmN0o0GowmpnjqELdzhwrw_zm4JBl-SFrrXcLTnFE6lulRUZTBpSmLgSEJO41lDoblO_h_d0w13mM4tVXuFgChyphenhyphenutrubw7JOvOPoQvQ_qHfOjwT1aV30kl-Q_AFpWyZkQ_1oFrE0OOR2B82nA7TGih1Skbx4knR6V923xNvyD/w640-h360/HTTP%20Request%20Response%20Cycle.jpg)
 
 ---
 
@@ -29,8 +33,8 @@ A **DNS server** translates domain names (like google.com) into IP addresses (li
 
 - Create a folder for this project and open it in [VSCode](https://code.visualstudio.com/download).
 - _Recommended_
-  - Install the "prettier" extension for VSCode
-  - Turn on "format on save" in VSCode settings
+  - Install the "oxc" extension for VSCode
+  - Turn on "format on save" in VSCode settings, and configure
 
 Create a folder called "part1"
 
@@ -513,7 +517,7 @@ button.addEventListener("click", () => {
 ```
 
 > [!WARNING]
-> Open `index.html` doesn't work anymore, because we can't use "fetch" to read files from the filesystem without running a server.
+> `open index.html` doesn't work anymore, because we can't use "fetch" to read files from the filesystem without running a server.
 
 Rather than `open index.html`, we need to run a local server to serve the files.
 
@@ -634,16 +638,12 @@ I asked Gemini to generate a version of the page that uses Tailwind for styling 
     <title>My App</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body
-    class="bg-slate-50 min-h-screen flex items-center justify-center p-6 text-slate-800"
-  >
+  <body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 text-slate-800">
     <div
       class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 border border-slate-100"
     >
       <header class="text-center">
-        <h1
-          class="text-4xl font-extrabold tracking-tight transition-colors duration-300"
-        >
+        <h1 class="text-4xl font-extrabold tracking-tight transition-colors duration-300">
           Hello World
         </h1>
         <p class="mt-2 text-slate-500 font-medium">This is my first website</p>
@@ -652,21 +652,15 @@ I asked Gemini to generate a version of the page that uses Tailwind for styling 
       <hr class="border-slate-100" />
 
       <ul class="space-y-2">
-        <li
-          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
-        >
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
           <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
           <span>Item 1</span>
         </li>
-        <li
-          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
-        >
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
           <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
           <span>Item 2</span>
         </li>
-        <li
-          class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100"
-        >
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
           <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
           <span>Item 3</span>
         </li>

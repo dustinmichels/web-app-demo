@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <!--HEAD SECTION -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+
+    <!--Tailwind gets loaded up here-->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <!--BODY SECTION -->
+  <body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 text-slate-800">
+    <div
+      class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6 border border-slate-100"
+    >
+      <!--Here's that header 1, wrapped in a DIV-->
+      <header class="text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight transition-colors duration-300">
+          Hello World
+        </h1>
+        <p class="mt-2 text-slate-500 font-medium">This is my first website</p>
+      </header>
+
+      <hr class="border-slate-100" />
+
+      <!--List of items -->
+      <ul class="space-y-2">
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 1</span>
+        </li>
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 2</span>
+        </li>
+        <li class="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg border border-slate-100">
+          <span class="h-2 w-2 bg-slate-400 rounded-full"></span>
+          <span>Item 3</span>
+        </li>
+      </ul>
+
+      <!--Here's that div -->
+      <div
+        class="p-4 bg-indigo-50 border-2 border-indigo-100 rounded-xl text-indigo-700 text-sm font-medium text-center italic"
+      >
+        This is stuff inside a div
+      </div>
+
+      <!--Here's the button -->
+      <button
+        id="myButton"
+        class="w-full py-3 px-6 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl shadow-lg transform active:scale-[0.98] transition-all"
+      >
+        Change header color
+      </button>
+    </div>
+
+    <!--SCRIPT SECTION -->
+    <script>
+      const button = document.getElementById("myButton");
+      const header = document.querySelector("h1");
+
+      // Using a JS Object instead of a JSON file
+      const colors = [
+        { name: "red", hex: "#ef4444" }, // Tailwind red-500
+        { name: "blue", hex: "#3b82f6" }, // Tailwind blue-500
+        { name: "green", hex: "#22c55e" }, // Tailwind green-500
+        { name: "orange", hex: "#f97316" }, // Tailwind orange-500
+        { name: "purple", hex: "#a855f7" }, // Tailwind purple-500
+      ];
+
+      let counter = 0;
+      header.style.color = colors[counter].hex;
+
+      // Here's javascript that does something when button is clicked
+      button.addEventListener("click", () => {
+        counter = (counter + 1) % colors.length;
+        header.style.color = colors[counter].hex;
+      });
+    </script>
+  </body>
+</html>
